@@ -66,10 +66,14 @@ module.exports = function (RED) {
           if (node.operation == 'get') {
             result.once('close', function() { conn.end(); });
             const chunks = [];
-            for await (const chunk of result) {
-                chunks.push(Buffer.from(chunk));
-            }
-            msg.payload = Buffer.concat(chunks).toString("utf-8");
+            result.on('data', (chunk) => {chunks.push(Buffer.from(chunk));});
+            result.on('end', () => {
+              msg.payload = Buffer.concat(chunks).toString("utf-8");
+              msg.filename = filename;
+              msg.localFilename = localFilename;
+              node.send(msg);
+            });
+            return;
           } else if (node.operation == 'put') {
             conn.end();
             msg.payload = 'Put operation successful.';
