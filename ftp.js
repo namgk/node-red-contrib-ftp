@@ -65,8 +65,11 @@ module.exports = function (RED) {
           node.status({});
           if (node.operation == 'get') {
             result.once('close', function() { conn.end(); });
-            result.pipe(fs.createWriteStream(localFilename));
-            msg.payload = 'Get operation successful. ' + localFilename;
+            const chunks = [];
+            for await (const chunk of result) {
+                chunks.push(Buffer.from(chunk));
+            }
+            msg.payload = Buffer.concat(chunks).toString("utf-8");
           } else if (node.operation == 'put') {
             conn.end();
             msg.payload = 'Put operation successful.';
