@@ -74,7 +74,7 @@
         <dd> the path/name of the file on the remote FTP server. </dd>
         <dt class="optional">localFilename
             <span class="property-type">string</span></dt>
-        <dd> the path/name of the file on the local machine.</dd>
+        <dd> the path/name of the file on the local machine. This value is ignored in this fork as no local file access is involved.</dd>
     </dl>
 
   <h3>Outputs</h3>
@@ -101,7 +101,7 @@
 
   <h3>Details</h3>
     <p><code>msg.filename</code> is the path/name of the file on the remote FTP server</p>
-    <p><code>msg.localFilename</code> is the path/name of the file on the local machine</p>
+    <p><code>msg.localFilename</code> is the path/name of the file on the local machine. This value is ignored in this fork as no local file access is involved.</p>
     <p>NOTE: the local machine is where NR is running - this might not be the machine where your browser connects to Node Red.</p>
     <p></p> 
     <p>GET uses <code>msg.filename</code> and <code>msg.localFilename</code></p>
